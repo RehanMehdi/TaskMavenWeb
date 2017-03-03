@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+    
+    <!-- configuration to fetch jsp files automatically from WEB-INF/jsp -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+        <property name="prefix" value="/WEB-INF/jsp/" /> 
+        <property name="suffix" value=".jsp" /> 
+    </bean>
+    
+    <bean id="stdntBeans" class="mytask.taskmavenweb.Stdnt" />
+    <bean id="cityBeans" class="mytask.taskmavenweb.City" />
+    
+    <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="mehdi"/>
+        <property name="password" value="123"/>
+    </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="ds"></property>
+    </bean>           
+    <bean id="tab" class="mytask.taskmavenweb.DBQueries">
+        <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+    </bean>   
+ 
+    <context:component-scan base-package="mytask.taskmavenweb" />
+    <mvc:annotation-driven />
+</beans>
